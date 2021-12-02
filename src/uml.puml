@@ -1,0 +1,117 @@
+@startuml
+
+class EventManager{
+    +GenerateEvent(): void
+}
+' extends MonoBehaviour{
+
+class Event{
+    -location: Vector2
+    +Event(Vector2 location)
+    +GetLocation(): Vector2
+    '+Update(): void
+    '+ChangeState(): void
+
+    +<b>GetNeededVehicleAmount(): int
+    +<b>Update(): void
+
+    - EnterRandomState(): void
+
+    <b>SetAndRemoveObservers() ...
+}
+Note left: bolded = unsure
+
+
+'class EventState{
+'    +<i>Update(): void</i>
+'    +<i>GetNeededVehicleAmount(): int</i>
+'}
+'
+'class Fire extends EventState{
+'    +GetNeededVehicleAmount(): 2
+'}
+'
+'class FalseAlarm extends EventState{
+'    +GetNeededVehicleAmount(): 0
+'}
+'
+'class OtherEvent extends EventState{
+'    +GetNeededVehicleAmount(): 3
+'}
+
+interface SKKMObserver
+{
+    +DisposeIfPossible(): bool
+}
+
+
+class SKKM{
+    -bases: BaseContainer
+    -knownEvents: List<events>
+    +SetStrategy(IDispositionStrategy s): void
+    +Dispose(Vector2 location, in amount): void
+}
+Note right:
+
+class Iterator<Abstract>{
+    +<i>HasNext()
+    +<i>Next()
+}
+class Container<Abstract>{
+    +<i>Iterate()
+}
+
+class BaseContainer
+'extends Container
+{
+    +CreateDefaultBases()
+}
+
+class Base
+'extends Iterator
+{
+
+}
+class VehicleContainer extends Container{
+
+}
+class Vehicle extends Iterator implements SKKMObserver{
+
+}
+
+
+
+interface IDispositionStrategy{
+    +<i>ChoseVehicles(BaseContainer bases, Vector2 location, int amount): List<SKKMObserver>
+}
+
+class NearestBaseStrategy implements IDispositionStrategy {
+}
+
+class VehicleState{
+    +<i>IsAvailable()</i>
+}
+
+class Available extends VehicleState{
+}
+
+class Disposed extends VehicleState{
+}
+
+Event *- "1" EventState
+
+'Fire ..> "can transition" FalseAlarm
+'OtherEvent ..> "can transition" FalseAlarm
+'EventManager o-- "0..n" Event
+Main --> SKKM
+SKKM o-- "0..n" SKKMObserver
+SKKM o--> IDispositionStrategy
+SKKM *--"1" BaseContainer
+BaseContainer *--"1..n" Base
+Base *-- "1" VehicleContainer
+VehicleContainer *- "0..n" Vehicle
+VehicleState -o Vehicle
+
+
+'note left of EventManager: Update is called every frame\nand is defined by Unity Engine\nin MonoBehaviour
+@enduml
