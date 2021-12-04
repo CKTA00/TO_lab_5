@@ -1,11 +1,13 @@
 package skkm;
 
+import util.Aggregator;
+import util.Iterator;
 import util.Vector2;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class BaseContainer {
+public class BaseContainer extends Aggregator {
     public List<Base> list;
 
     public BaseContainer()
@@ -26,5 +28,10 @@ public class BaseContainer {
         list.add(new Base("Aspiranci",new Vector2(50.08517309563034, 20.035592863895666)));
         list.add(new Base("Lotnisko",new Vector2(50.08076704512346, 19.78634054235572)));
         list.add(new Base("Skawina",new Vector2(49.97710824718122, 19.80282003468894)));
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new BaseIterator(list);
     }
 }

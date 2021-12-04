@@ -7,17 +7,12 @@ class EventManager{
 
 class Event{
     -location: Vector2
+    -string: eventType
     +Event(Vector2 location)
+    -EnterRandomState(): void
     +GetLocation(): Vector2
-    '+Update(): void
-    '+ChangeState(): void
-
-    +<b>GetNeededVehicleAmount(): int
-    +<b>Update(): void
-
-    - EnterRandomState(): void
-
-    <b>SetAndRemoveObservers() ...
+    +GetNeededVehicleAmount(): int
+    +GetEventType(): String
 }
 Note left: bolded = unsure
 
@@ -51,31 +46,37 @@ class SKKM{
     +SetStrategy(IDispositionStrategy s): void
     +Dispose(Vector2 location, in amount): void
 }
-Note right:
+Note right: bla bla
 
 class Iterator<Abstract>{
     +<i>HasNext()
     +<i>Next()
 }
-class Container<Abstract>{
+class Aggregator<Abstract>{
     +<i>Iterate()
 }
 
-class BaseContainer
-'extends Container
+class BaseContainer extends Aggregator
 {
     +CreateDefaultBases()
 }
 
-class Base
-'extends Iterator
+class BaseIterator extends Iterator
 {
 
 }
-class VehicleContainer extends Container{
+
+class Base extends Aggregator
+{
 
 }
-class Vehicle extends Iterator implements SKKMObserver{
+
+class VehicleIterator extends Iterator
+{
+
+}
+
+class Vehicle implements SKKMObserver{
 
 }
 
@@ -88,8 +89,10 @@ interface IDispositionStrategy{
 class NearestBaseStrategy implements IDispositionStrategy {
 }
 
-class VehicleState{
+class VehicleState<Abstract>{
     +<i>IsAvailable()</i>
+    +<i>EnterState()</i>
+    +<i>Update()</i>
 }
 
 class Available extends VehicleState{
@@ -108,9 +111,12 @@ SKKM o-- "0..n" SKKMObserver
 SKKM o--> IDispositionStrategy
 SKKM *--"1" BaseContainer
 BaseContainer *--"1..n" Base
-Base *-- "1" VehicleContainer
-VehicleContainer *- "0..n" Vehicle
-VehicleState -o Vehicle
+Base *-- "3" Vehicle
+VehicleState --o Vehicle
+Main ... NearestBaseStrategy
+
+Base --> VehicleIterator
+BaseContainer --> BaseIterator
 
 
 'note left of EventManager: Update is called every frame\nand is defined by Unity Engine\nin MonoBehaviour
