@@ -12,7 +12,7 @@ public class Base extends Aggregator {
     public Base(String name, Vector2 location) {
         this.name = name;
         this.location = location;
-        this.units =  new Vehicle[5];
+        this.units = new Vehicle[5];
     }
 
     public void SubscribeAllVehiclesTo(SKKM center)

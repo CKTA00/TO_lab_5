@@ -2,6 +2,7 @@ package skkm;
 import event.EventAlarm;
 import util.Vector2;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class SKKM {
@@ -12,6 +13,7 @@ public class SKKM {
 
     public SKKM(IDispositionStrategy strategy, BaseContainer bases)
     {
+        observersCollection = new LinkedList<>();
         ChangeStrategy(strategy);
         this.bases = bases;
     }

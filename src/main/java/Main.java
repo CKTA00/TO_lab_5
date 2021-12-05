@@ -1,5 +1,7 @@
 import skkm.Base;
 import skkm.BaseContainer;
+import skkm.NearestBaseStrategy;
+import skkm.SKKM;
 import util.Vector2;
 
 import java.util.LinkedList;
@@ -9,7 +11,12 @@ public class Main {
     {
         System.out.println("Preparing...");
         BaseContainer bases = CreateDefaultBases();
+        NearestBaseStrategy strategy = new NearestBaseStrategy();
+        SKKM center = new SKKM(strategy,bases);
+        bases.SubscribeAllVehicles(center); // Maybe move to SKKM constructor?
 
+        System.out.println("READY");
+        //System.out.println("Event generator is running");
     }
 
     private static BaseContainer CreateDefaultBases()
