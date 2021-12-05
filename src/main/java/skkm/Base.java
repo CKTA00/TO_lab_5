@@ -12,7 +12,15 @@ public class Base extends Aggregator {
     public Base(String name, Vector2 location) {
         this.name = name;
         this.location = location;
-        this.units =  new Vehicle[3];
+        this.units =  new Vehicle[5];
+    }
+
+    public void SubscribeAllVehiclesTo(SKKM center)
+    {
+        for (var veh:
+             units) {
+            center.AddObserver(veh);
+        }
     }
 
     public Iterator iterator() {

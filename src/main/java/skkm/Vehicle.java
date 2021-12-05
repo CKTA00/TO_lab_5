@@ -4,7 +4,7 @@ import vehicle_state.AvailableVehicleState;
 import vehicle_state.DisposedVehicleState;
 import vehicle_state.GenericVehicleState;
 
-public class Vehicle {
+public class Vehicle implements ISKKMObserver{
 
     GenericVehicleState state;
     public DisposedVehicleState disposed;
@@ -33,4 +33,8 @@ public class Vehicle {
         return state == available;
     }
 
+    @Override
+    public void Send() {
+
+    }
 }

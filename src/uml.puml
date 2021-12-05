@@ -1,52 +1,55 @@
 @startuml
 
-class EventManager{
-    +GenerateEvent(): void
+class Main{
+    +CreateDefaultBases()
 }
-' extends MonoBehaviour{
 
-class Event{
+class EventGenerator{
+    -Vector2: pointFrom
+    -Vector2: pointTo
+    +GenerateEvent(): Event
+}
+
+class EventAlarm{
     -location: Vector2
     -string: eventType
     +Event(Vector2 location)
-    -EnterRandomState(): void
     +GetLocation(): Vector2
-    +GetNeededVehicleAmount(): int
-    +GetEventType(): String
+    +IsFalseAlarm(): boolean
+    +<i>GetRequiredVehicleAmount(): int
+    +<i>GetType(): String
 }
-Note left: bolded = unsure
 
 
-'class EventState{
-'    +<i>Update(): void</i>
-'    +<i>GetNeededVehicleAmount(): int</i>
-'}
-'
-'class Fire extends EventState{
-'    +GetNeededVehicleAmount(): 2
-'}
-'
-'class FalseAlarm extends EventState{
-'    +GetNeededVehicleAmount(): 0
-'}
-'
-'class OtherEvent extends EventState{
-'    +GetNeededVehicleAmount(): 3
-'}
+class FireAlarm extends EventAlarm{
+    +GetRequiredVehicleAmount(): 2
+    +GetType(): "PZ"
+}
 
-interface SKKMObserver
+class OtherThreatAlarm extends EventAlarm{
+    +GetRequiredVehicleAmount(): 3
+    +GetType(): "MZ"
+}
+
+interface ISKKMObserver
 {
-    +DisposeIfPossible(): bool
+    +Send()
 }
 
 
 class SKKM{
     -bases: BaseContainer
-    -knownEvents: List<events>
+    -List<ISKKMObserver> observersCollection
     +SetStrategy(IDispositionStrategy s): void
-    +Dispose(Vector2 location, in amount): void
+    +Alarm(EventAlarm eventAlarm): void
+    -Dispose(Vector2 location, in amount): void
+
+    +AddObserver(ISKKMObserver observer): void
+    +RemoveObserver(ISKKMObserver observer): void
+    +Notify(ISKKMObserver observer): void
+    +NotifyAll(): void
 }
-Note right: bla bla
+'Note right: bla bla
 
 class Iterator<Abstract>{
     +<i>HasNext()
@@ -58,7 +61,9 @@ class Aggregator<Abstract>{
 
 class BaseContainer extends Aggregator
 {
-    +CreateDefaultBases()
+    -list: List<Base>
+    +AddBase(): void
+    +SubscribeAllVehicles(SKKM center): void
 }
 
 class BaseIterator extends Iterator
@@ -76,14 +81,14 @@ class VehicleIterator extends Iterator
 
 }
 
-class Vehicle implements SKKMObserver{
+class Vehicle implements ISKKMObserver{
 
 }
 
 
 
 interface IDispositionStrategy{
-    +<i>ChoseVehicles(BaseContainer bases, Vector2 location, int amount): List<SKKMObserver>
+    +<i>ChoseVehicles(SKKM ctx, Vector2 location, int amount): void
 }
 
 class NearestBaseStrategy implements IDispositionStrategy {
@@ -101,19 +106,19 @@ class Available extends VehicleState{
 class Disposed extends VehicleState{
 }
 
-Event *- "1" EventState
 
 'Fire ..> "can transition" FalseAlarm
 'OtherEvent ..> "can transition" FalseAlarm
-'EventManager o-- "0..n" Event
-Main --> SKKM
-SKKM o-- "0..n" SKKMObserver
+EventGenerator "creates" --> EventAlarm
+Main "sends events"--> SKKM
+Main "requests new event"--> EventGenerator
+SKKM o-- "0..5n" ISKKMObserver
 SKKM o--> IDispositionStrategy
-SKKM *--"1" BaseContainer
+Main *--"1" BaseContainer
 BaseContainer *--"1..n" Base
-Base *-- "3" Vehicle
-VehicleState --o Vehicle
-Main ... NearestBaseStrategy
+Base *-- "5" Vehicle
+VehicleState -- Vehicle
+'Main ... NearestBaseStrategy
 
 Base --> VehicleIterator
 BaseContainer --> BaseIterator
