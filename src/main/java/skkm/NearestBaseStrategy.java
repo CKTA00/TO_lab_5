@@ -1,5 +1,6 @@
 package skkm;
 
+import event.EventAlarm;
 import util.Iterator;
 import util.Vector2;
 
@@ -8,7 +9,10 @@ import java.util.List;
 
 public class NearestBaseStrategy implements IDispositionStrategy {
     @Override
-    public void ChoseVehicles(SKKM ctx, Vector2 location, int amount) {
+    public void ChoseVehicles(SKKM ctx, EventAlarm event) {
+
+        Vector2 location = event.GetLocation();
+        int amount = event.GetRequiredVehicleAmount();
 
         List<Base> excluded = new LinkedList<Base>();
 
@@ -43,21 +47,22 @@ public class NearestBaseStrategy implements IDispositionStrategy {
 
             excluded.add(nearestBase);
             ctx.ui.Print("Z bazy " + nearestBase.name + " wyruszyły ");
-            int newAmount = SendVehiclesAndGetRest(ctx,nearestBase, amount);
+            int newAmount = SendVehiclesAndGetRest(ctx, nearestBase, event, amount);
             ctx.ui.Println( (amount-newAmount) + " pojazdy.");
             amount = newAmount;
         }
     }
 
-    int SendVehiclesAndGetRest(SKKM ctx, Base nearestBase, int amount)
+    int SendVehiclesAndGetRest(SKKM ctx, Base nearestBase, EventAlarm event, int amount)
     {
+        // TODO: Print sent vehicles names
         Iterator it = nearestBase.iterator();
         while(it.hasNext() && amount>0)
         {
             Vehicle veh = (Vehicle) it.next();
             if(veh.isAvailable())
             {
-                ctx.Notify(veh);
+                ctx.Notify(veh,event);
                 amount--;
             }
         }

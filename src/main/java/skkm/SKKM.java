@@ -36,33 +36,33 @@ public class SKKM {
         observersCollection.remove(observer);
     }
 
-    public void Notify(ISKKMObserver observer)
+    public void Notify(ISKKMObserver observer, EventAlarm event)
     {
         if(observersCollection.contains(observer))
         {
-            observer.Send();
+            observer.Send(event);
         }
     }
 
-    public void NotifyAll()
+    public void NotifyAll(EventAlarm event)
     {
         for (var observer:
              observersCollection) {
-            observer.Send();
+            observer.Send(event);
         }
     }
 
     public void Alarm(EventAlarm eventAlarm)
     {
         ui.Println("Zgłoszenie zdarzenia:");
-        ui.Print("\tTYP: "+eventAlarm.GetType());
+        ui.Println("\tTYP: "+eventAlarm.GetType());
         ui.Println("\tLOKALIZACJA: "+eventAlarm.GetLocation());
-        Dispose(eventAlarm.GetLocation(),eventAlarm.GetRequiredVehicleAmount());
+        Dispose(eventAlarm);
     }
 
-    void Dispose(Vector2 location, int amount)
+    void Dispose(EventAlarm event)
     {
-        strategy.ChoseVehicles(this, location, amount);
+        strategy.ChoseVehicles(this, event);
     }
 
 }

@@ -1,10 +1,12 @@
 package vehicle_state;
 
+import skkm.Vehicle;
+
 public class AvailableVehicleState extends GenericVehicleState{
 
 
     public AvailableVehicleState() {
-        System.out.println("[i] Pojazd powrócił do bazy.");
+
     }
 
     @Override
@@ -13,7 +15,12 @@ public class AvailableVehicleState extends GenericVehicleState{
     }
 
     @Override
-    public void Update() {
+    public void Update(Vehicle ctx, long time) {
 
+    }
+
+    @Override
+    public boolean IsVehicleAvailable() {
+        return true;
     }
 }

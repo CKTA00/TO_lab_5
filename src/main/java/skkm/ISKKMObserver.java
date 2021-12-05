@@ -1,5 +1,7 @@
 package skkm;
 
+import event.EventAlarm;
+
 public interface ISKKMObserver {
-    public void Send(/*Event event*/);
+    public void Send(EventAlarm event);
 }

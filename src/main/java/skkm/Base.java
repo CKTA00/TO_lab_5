@@ -15,7 +15,7 @@ public class Base extends Aggregator {
         this.units = new Vehicle[5];
 
         for (int i =0; i<units.length; i++) {
-            units[i] = new Vehicle();
+            units[i] = new Vehicle("Pojazd " + i + " z bazy " + name);
         }
     }
 
@@ -24,6 +24,13 @@ public class Base extends Aggregator {
         for (var veh:
              units) {
             center.AddObserver(veh);
+        }
+    }
+
+    public void UpdateAllVehicles(long time){
+        for (var veh:
+                units) {
+            veh.Update(time);
         }
     }
 

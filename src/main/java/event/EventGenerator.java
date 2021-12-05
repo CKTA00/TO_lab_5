@@ -4,6 +4,7 @@ import util.Vector2;
 
 import java.util.Random;
 
+// TODO make IEventGenerator
 public class EventGenerator {
 
     static Random gen;
@@ -11,6 +12,7 @@ public class EventGenerator {
     Vector2 pointTo;
     float fireChance;
     float falseAlarmChance;
+
 
     public EventGenerator(Vector2 from, Vector2 to, float fireChance, float falseAlarmChance)
     {

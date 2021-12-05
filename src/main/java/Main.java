@@ -1,37 +1,60 @@
-import event.EventAlarm;
 import event.EventGenerator;
-import event.FireAlarm;
-import skkm.Base;
-import skkm.BaseContainer;
-import skkm.NearestBaseStrategy;
-import skkm.SKKM;
+import skkm.*;
 import ui.ConsoleUI;
 import ui.IGeneralUI;
 import util.Vector2;
 
-import java.util.LinkedList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+//TODO Make more packages
 public class Main {
+
+    // Program elements:
+    static IGeneralUI ui;
+    static BaseContainer bases;
+    static IDispositionStrategy strategy;
+    static SKKM center;
+    static EventGenerator generator;
+
+    // Schedule related:
+    static final long updateTime = 50; //miliSeconds
+    static final long maxNewAlarmTime = 50; //miliSeconds
+    static final long minNewAlarmTime = 1; //miliSeconds
+
+
+    static long updatesToNewAlarm;
+
     public static void main(String args[])
     {
-        IGeneralUI ui = new ConsoleUI();
+
+        ui = new ConsoleUI();
         ui.Println("Preparing...");
-        BaseContainer bases = CreateDefaultBases();
-        NearestBaseStrategy strategy = new NearestBaseStrategy();
-        SKKM center = new SKKM(strategy, bases, ui);
+        bases = CreateDefaultBases();
+        strategy = new NearestBaseStrategy();
+        center = new SKKM(strategy, bases, ui);
         bases.SubscribeAllVehicles(center); // Maybe move to SKKM constructor?
-        EventGenerator generator = new EventGenerator(
+        generator = new EventGenerator(
                 new Vector2(49.95855025648944,19.688292482742394),
                 new Vector2(50.154564013341734, 20.02470275868903),
                 0.3f,
                 0.05f
         );
 
+
+        Timer timer = new Timer();
+        Random rand = new Random();
+        TimerTask update = new TimerTask() {
+            @Override
+            public void run() {
+                Update(rand);
+            }
+        };
         ui.Println("READY");
-        center.Alarm(generator.Generate());
-        center.Alarm(generator.Generate());
-        center.Alarm(generator.Generate());
-        //ui.Println("Event generator is running");
+        timer.schedule(update, 0, updateTime);
+
+        //TODO: add "press any key to quit application" (or press q)
     }
 
     private static BaseContainer CreateDefaultBases()
@@ -48,5 +71,19 @@ public class Main {
         bases.AddBase(new Base("Lotnisko",new Vector2(50.08076704512346, 19.78634054235572)));
         bases.AddBase(new Base("Skawina",new Vector2(49.97710824718122, 19.80282003468894)));
         return bases;
+    }
+
+    public static void Update(Random rand)
+    {
+        // TODO Move it to EventGenerator and replace with generator.Update() (requires changing constructor)
+        {
+            updatesToNewAlarm -= updateTime;
+            if(updatesToNewAlarm <=0)
+            {
+                center.Alarm(generator.Generate());
+                updatesToNewAlarm = rand.nextInt() % (maxNewAlarmTime - minNewAlarmTime) + minNewAlarmTime;
+            }
+        }
+        bases.UpdateAllVehicles(updateTime);
     }
 }

@@ -1,19 +1,26 @@
 package skkm;
 
-import vehicle_state.AvailableVehicleState;
-import vehicle_state.DisposedVehicleState;
-import vehicle_state.GenericVehicleState;
+import event.EventAlarm;
+import vehicle_state.*;
 
 public class Vehicle implements ISKKMObserver{
 
     GenericVehicleState state;
     public DisposedVehicleState disposed;
     public AvailableVehicleState available;
+    public InActionVehicleState inAction;
+    public ReturningVehicleState returning;
 
-    public Vehicle()
+    String name;
+
+    public Vehicle(String name)
     {
+        this.name = name;
+
         disposed = new DisposedVehicleState();
         available = new AvailableVehicleState();
+        inAction = new InActionVehicleState();
+        returning = new ReturningVehicleState();
         ChangeState(available);
     }
 
@@ -23,21 +30,29 @@ public class Vehicle implements ISKKMObserver{
         state.EnterState();
     }
 
-    public void Update()
+    public void Update(long time)
     {
-        state.Update();
+        state.Update(this, time);
     }
 
     public boolean isAvailable()
     {
-        return state == available;
+        return state.IsVehicleAvailable();
     }
 
     @Override
-    public void Send() {
+    public void Send(EventAlarm event) {
         if(state==disposed)
             System.out.println("(x) pojazd już jest wystawiony");
         else
+        {
+            disposed.SetDestination(event);
             ChangeState(disposed);
+        }
+
+    }
+
+    public String GetName() {
+        return name;
     }
 }

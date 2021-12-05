@@ -28,6 +28,14 @@ public class BaseContainer extends Aggregator {
         }
     }
 
+    public void UpdateAllVehicles(long time)
+    {
+        for (var base:
+                list) {
+            base.UpdateAllVehicles(time);
+        }
+    }
+
     @Override
     public Iterator iterator() {
         return new BaseIterator(list);

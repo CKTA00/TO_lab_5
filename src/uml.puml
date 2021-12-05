@@ -1,5 +1,7 @@
 @startuml
 
+'TODO: Update uml (new VehicleStates, ui, many functions)
+
 class Main{
     +CreateDefaultBases()
 }
