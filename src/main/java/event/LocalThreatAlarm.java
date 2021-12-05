@@ -1,6 +1,12 @@
 package event;
 
+import util.Vector2;
+
 public class LocalThreatAlarm extends EventAlarm{
+    public LocalThreatAlarm(Vector2 location, boolean isFalseAlarm) {
+        super(location, isFalseAlarm);
+    }
+
     @Override
     public String GetType() {
         return "MZ";

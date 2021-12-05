@@ -1,7 +1,12 @@
+import event.EventAlarm;
+import event.EventGenerator;
+import event.FireAlarm;
 import skkm.Base;
 import skkm.BaseContainer;
 import skkm.NearestBaseStrategy;
 import skkm.SKKM;
+import ui.ConsoleUI;
+import ui.IGeneralUI;
 import util.Vector2;
 
 import java.util.LinkedList;
@@ -9,14 +14,24 @@ import java.util.LinkedList;
 public class Main {
     public static void main(String args[])
     {
-        System.out.println("Preparing...");
+        IGeneralUI ui = new ConsoleUI();
+        ui.Println("Preparing...");
         BaseContainer bases = CreateDefaultBases();
         NearestBaseStrategy strategy = new NearestBaseStrategy();
-        SKKM center = new SKKM(strategy,bases);
+        SKKM center = new SKKM(strategy, bases, ui);
         bases.SubscribeAllVehicles(center); // Maybe move to SKKM constructor?
+        EventGenerator generator = new EventGenerator(
+                new Vector2(49.95855025648944,19.688292482742394),
+                new Vector2(50.154564013341734, 20.02470275868903),
+                0.3f,
+                0.05f
+        );
 
-        System.out.println("READY");
-        //System.out.println("Event generator is running");
+        ui.Println("READY");
+        center.Alarm(generator.Generate());
+        center.Alarm(generator.Generate());
+        center.Alarm(generator.Generate());
+        //ui.Println("Event generator is running");
     }
 
     private static BaseContainer CreateDefaultBases()

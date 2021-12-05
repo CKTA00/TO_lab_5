@@ -1,5 +1,6 @@
 package skkm;
 import event.EventAlarm;
+import ui.IGeneralUI;
 import util.Vector2;
 
 import java.util.LinkedList;
@@ -8,14 +9,16 @@ import java.util.List;
 public class SKKM {
     BaseContainer bases;
     IDispositionStrategy strategy;
+    IGeneralUI ui;
 
     List<ISKKMObserver> observersCollection;
 
-    public SKKM(IDispositionStrategy strategy, BaseContainer bases)
+    public SKKM(IDispositionStrategy strategy, BaseContainer bases, IGeneralUI ui)
     {
         observersCollection = new LinkedList<>();
         ChangeStrategy(strategy);
         this.bases = bases;
+        this.ui = ui;
     }
 
     public void ChangeStrategy(IDispositionStrategy strategy)
@@ -51,11 +54,15 @@ public class SKKM {
 
     public void Alarm(EventAlarm eventAlarm)
     {
-
+        ui.Println("Zgłoszenie zdarzenia:");
+        ui.Print("\tTYP: "+eventAlarm.GetType());
+        ui.Println("\tLOKALIZACJA: "+eventAlarm.GetLocation());
+        Dispose(eventAlarm.GetLocation(),eventAlarm.GetRequiredVehicleAmount());
     }
 
     void Dispose(Vector2 location, int amount)
     {
         strategy.ChoseVehicles(this, location, amount);
     }
+
 }

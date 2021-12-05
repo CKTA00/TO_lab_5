@@ -35,6 +35,9 @@ public class Vehicle implements ISKKMObserver{
 
     @Override
     public void Send() {
-
+        if(state==disposed)
+            System.out.println("(x) pojazd już jest wystawiony");
+        else
+            ChangeState(disposed);
     }
 }

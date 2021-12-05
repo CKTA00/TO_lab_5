@@ -13,6 +13,10 @@ public class Base extends Aggregator {
         this.name = name;
         this.location = location;
         this.units = new Vehicle[5];
+
+        for (int i =0; i<units.length; i++) {
+            units[i] = new Vehicle();
+        }
     }
 
     public void SubscribeAllVehiclesTo(SKKM center)

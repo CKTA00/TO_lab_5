@@ -26,7 +26,7 @@ class FireAlarm extends EventAlarm{
     +GetType(): "PZ"
 }
 
-class OtherThreatAlarm extends EventAlarm{
+class LocalThreatAlarm extends EventAlarm{
     +GetRequiredVehicleAmount(): 3
     +GetType(): "MZ"
 }

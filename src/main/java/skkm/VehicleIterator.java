@@ -4,20 +4,23 @@ import util.Iterator;
 
 public class VehicleIterator extends Iterator {
 
-
+    Vehicle[] units;
+    int index;
 
     public VehicleIterator(Vehicle[] units)
     {
-
+        this.units = units;
+        index = -1;
     }
 
     @Override
     public boolean hasNext() {
-        return false;
+        return (index<units.length-1);
     }
 
     @Override
     public Object next() {
-        return null;
+        index++;
+        return units[index];
     }
 }
