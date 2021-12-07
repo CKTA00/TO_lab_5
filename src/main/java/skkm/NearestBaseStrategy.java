@@ -14,7 +14,7 @@ public class NearestBaseStrategy implements IDispositionStrategy {
         Vector2 location = event.GetLocation();
         int amount = event.GetRequiredVehicleAmount();
 
-        List<Base> excluded = new LinkedList<Base>();
+        List<Base> excluded = new LinkedList<>();
 
         while(amount>0)
         {
@@ -55,7 +55,6 @@ public class NearestBaseStrategy implements IDispositionStrategy {
 
     int SendVehiclesAndGetRest(SKKM ctx, Base nearestBase, EventAlarm event, int amount)
     {
-        // TODO: Print sent vehicles names
         Iterator it = nearestBase.iterator();
         while(it.hasNext() && amount>0)
         {
