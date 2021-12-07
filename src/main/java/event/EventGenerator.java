@@ -4,8 +4,7 @@ import util.Vector2;
 
 import java.util.Random;
 
-// TODO make IEventGenerator
-public class EventGenerator {
+public class EventGenerator implements IEventGenerator {
 
     static Random rand;
     Vector2 pointFrom;

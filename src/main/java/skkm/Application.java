@@ -1,6 +1,7 @@
 package skkm;
 
 import event.EventGenerator;
+import event.IEventGenerator;
 import ui.ConsoleUI;
 import ui.IGeneralUI;
 import util.Vector2;
@@ -15,7 +16,7 @@ public class Application {
     static BaseContainer bases;
     static IDispositionStrategy strategy;
     static SKKM center;
-    static EventGenerator generator;
+    static IEventGenerator generator;
 
     // Schedule related:
     static final long updateTime = 50; //miliSeconds
@@ -29,7 +30,7 @@ public class Application {
         strategy = new NearestBaseStrategy();
         center = new SKKM(strategy, bases, ui);
         bases.SubscribeAllVehicles(center); // Maybe move to SKKM constructor?
-        generator = new EventGenerator(
+        generator = (IEventGenerator) new EventGenerator(
                 new Vector2(49.95855025648944,19.688292482742394),
                 new Vector2(50.154564013341734, 20.02470275868903),
                 0.3f,
