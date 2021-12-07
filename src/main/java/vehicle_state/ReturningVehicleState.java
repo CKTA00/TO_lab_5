@@ -1,6 +1,8 @@
 package vehicle_state;
 
+import skkm.Application;
 import skkm.Vehicle;
+import ui.IGeneralUI;
 
 import java.util.Random;
 
@@ -23,7 +25,8 @@ public class ReturningVehicleState extends GenericVehicleState{
         timeSincePoint += time;
         if(timeSincePoint>travelTime)
         {
-            System.out.println("[i] " + ctx.GetName() + " powrócił do bazy."); // TODO ui system
+            IGeneralUI ui = Application.GetCurrentUI();
+            ui.Println("[i] " + ctx.GetName() + " powrócił do bazy.");
             ctx.ChangeState(ctx.available);
         }
     }

@@ -1,7 +1,10 @@
 package vehicle_state;
 
 import event.EventAlarm;
+import skkm.Application;
 import skkm.Vehicle;
+import ui.ConsoleUI;
+import ui.IGeneralUI;
 
 import java.util.Random;
 
@@ -37,14 +40,15 @@ public class DisposedVehicleState extends GenericVehicleState{
         timeSinceDeploy += time;
         if(timeSinceDeploy > travelTime)
         {
+            IGeneralUI ui = Application.GetCurrentUI();
             if(destinationEvent.IsFalseAlarm())
             {
                 ctx.ChangeState(ctx.returning);
-                System.out.println("[i] " + ctx.GetName() + " rozpoznał fałszywy alarm! Powrót pojazdu..."); // TODO: ui system
+                ui.Println("[i] " + ctx.GetName() + " rozpoznał fałszywy alarm! Powrót pojazdu...");
             }
             else{
                 ctx.ChangeState(ctx.inAction);
-                System.out.println("[i] " + ctx.GetName() + " rozpoczął akcje."); // TODO: ui system
+                ui.Println("[i] " + ctx.GetName() + " rozpoczął akcje.");
             }
         }
     }

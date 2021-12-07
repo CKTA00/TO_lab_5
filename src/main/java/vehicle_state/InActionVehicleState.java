@@ -1,6 +1,9 @@
 package vehicle_state;
 
+import skkm.Application;
 import skkm.Vehicle;
+import ui.ConsoleUI;
+import ui.IGeneralUI;
 
 import java.util.Random;
 
@@ -24,7 +27,8 @@ public class InActionVehicleState extends GenericVehicleState {
         timeSinceBeginning += time;
         if(timeSinceBeginning>actionTime)
         {
-            System.out.println("[i] " + ctx.GetName() + " zakończył akcję."); // TODO ui system
+            IGeneralUI ui = Application.GetCurrentUI();
+            ui.Println("[i] " + ctx.GetName() + " zakończył akcję.");
             ctx.ChangeState(ctx.returning);
         }
     }
