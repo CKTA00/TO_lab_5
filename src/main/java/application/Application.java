@@ -77,7 +77,8 @@ public final class Application {
     {
         if(generator.UpdateAndCheckForNewAlarm(updateTime))
             center.Alarm(generator.Generate());
-        bases.UpdateAllVehicles(updateTime);
+        //bases.UpdateAllVehicles(updateTime);
+        center.UpdateAll(updateTime);
     }
 
     public static IGeneralUI GetCurrentUI()

@@ -30,13 +30,6 @@ public class Base extends Aggregator {
         }
     }
 
-    public void UpdateAllVehicles(long time){
-        for (var veh:
-                units) {
-            veh.Update(time);
-        }
-    }
-
     public Iterator iterator() {
         return new VehicleIterator(units);
     }

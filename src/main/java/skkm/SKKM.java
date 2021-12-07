@@ -65,4 +65,10 @@ public class SKKM {
         strategy.ChoseVehicles(this, event);
     }
 
+    public void UpdateAll(long updateTime) {
+        for (var observer:
+                observersCollection) {
+            observer.Update(updateTime);
+        }
+    }
 }

@@ -49,6 +49,7 @@ class LocalThreatAlarm extends EventAlarm{
 interface ISKKMObserver
 {
     +Send(EventAlarm event)
+    +Update(long updateTime)
 }
 
 
@@ -78,7 +79,6 @@ class BaseContainer extends Aggregator
     -list: List<Base>
     +AddBase(): void
     +SubscribeAllVehicles(SKKM center): void
-    +Update(long)
 }
 
 class BaseIterator extends Iterator
