@@ -2,20 +2,33 @@
 
 'TODO: Update uml (new VehicleStates, ui, many functions)
 
-class Main{
-    +CreateDefaultBases()
+class Application <Final>{
+    -updateTime: long = 50
+    +Run()
+    +GetCurrentUI: IGeneralUI
+    -CreateDefaultBases()
+    -Update()
 }
 
-class EventGenerator{
-    -Vector2: pointFrom
-    -Vector2: pointTo
-    +GenerateEvent(): Event
+interface IEventGenerator{
+    +Generate(): EventAlarm
+    +UpdateAndCheckForNewAlarm(long updateTime): boolean
+}
+
+class EventGenerator implements IEventGenerator{
+    -pointFrom: Vector2
+    -pointTo: Vector2
+    -fireChance: float;
+    -falseAlarmChance: float;
+    -generatorTimer: long
+    -maxNewAlarmTime: long
+    -minNewAlarmTime: long
 }
 
 class EventAlarm{
     -location: Vector2
-    -string: eventType
-    +Event(Vector2 location)
+    -boolean: isFalseAlarm
+    +EventAlarm(Vector2 location)
     +GetLocation(): Vector2
     +IsFalseAlarm(): boolean
     +<i>GetRequiredVehicleAmount(): int
@@ -35,14 +48,14 @@ class LocalThreatAlarm extends EventAlarm{
 
 interface ISKKMObserver
 {
-    +Send()
+    +Send(EventAlarm event)
 }
 
 
 class SKKM{
     -bases: BaseContainer
     -List<ISKKMObserver> observersCollection
-    +SetStrategy(IDispositionStrategy s): void
+    +ChangeStrategy(IDispositionStrategy s): void
     +Alarm(EventAlarm eventAlarm): void
     -Dispose(Vector2 location, in amount): void
 
@@ -51,7 +64,6 @@ class SKKM{
     +Notify(ISKKMObserver observer): void
     +NotifyAll(): void
 }
-'Note right: bla bla
 
 class Iterator<Abstract>{
     +<i>HasNext()
@@ -66,6 +78,7 @@ class BaseContainer extends Aggregator
     -list: List<Base>
     +AddBase(): void
     +SubscribeAllVehicles(SKKM center): void
+    +Update(long)
 }
 
 class BaseIterator extends Iterator
@@ -112,11 +125,11 @@ class Disposed extends VehicleState{
 'Fire ..> "can transition" FalseAlarm
 'OtherEvent ..> "can transition" FalseAlarm
 EventGenerator "creates" --> EventAlarm
-Main "sends events"--> SKKM
-Main "requests new event"--> EventGenerator
+Application "sends events"--> SKKM
+Application "requests new event"--> EventGenerator
 SKKM o-- "0..5n" ISKKMObserver
 SKKM o--> IDispositionStrategy
-Main *--"1" BaseContainer
+Application *--"1" BaseContainer
 BaseContainer *--"1..n" Base
 Base *-- "5" Vehicle
 VehicleState -- Vehicle

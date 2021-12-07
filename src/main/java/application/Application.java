@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Application {
+public final class Application {
     // Program elements:
     static IGeneralUI ui;
     static BaseContainer bases;
