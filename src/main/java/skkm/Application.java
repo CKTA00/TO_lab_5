@@ -50,8 +50,6 @@ public class Application {
         };
         ui.Println("READY");
         timer.schedule(update, 0, updateTime);
-
-        //TODO: add "press any key to quit application" (or press q)
     }
 
     private static BaseContainer CreateDefaultBases()
