@@ -71,7 +71,6 @@ public class Application {
 
     private static void Update(Random rand)
     {
-        // TODO Move it to EventGenerator and replace with generator.Update() (requires changing constructor)
         if(generator.UpdateAndCheckForNewAlarm(updateTime))
             center.Alarm(generator.Generate());
         bases.UpdateAllVehicles(updateTime);
