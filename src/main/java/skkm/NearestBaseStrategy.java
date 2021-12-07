@@ -11,7 +11,7 @@ import java.util.List;
 
 public class NearestBaseStrategy implements IDispositionStrategy {
     @Override
-    public void ChoseVehicles(SKKM ctx, EventAlarm event) {
+    public void SendVehicles(SKKM ctx, EventAlarm event) {
 
         Vector2 location = event.GetLocation();
         int amount = event.GetRequiredVehicleAmount();
@@ -49,19 +49,19 @@ public class NearestBaseStrategy implements IDispositionStrategy {
 
             excluded.add(nearestBase);
             ctx.ui.Print("Z bazy " + nearestBase.name + " wyruszyły ");
-            int newAmount = SendVehiclesAndGetRest(ctx, nearestBase, event, amount);
+            int newAmount = TrySendingAndGetRest(ctx, nearestBase, event, amount);
             ctx.ui.Println( (amount-newAmount) + " pojazdy.");
             amount = newAmount;
         }
     }
 
-    int SendVehiclesAndGetRest(SKKM ctx, Base nearestBase, EventAlarm event, int amount)
+    int TrySendingAndGetRest(SKKM ctx, Base nearestBase, EventAlarm event, int amount)
     {
         Iterator it = nearestBase.iterator();
         while(it.hasNext() && amount>0)
         {
             Vehicle veh = (Vehicle) it.next();
-            if(veh.isAvailable())
+            if(veh.IsAvailable())
             {
                 ctx.Notify(veh,event);
                 amount--;

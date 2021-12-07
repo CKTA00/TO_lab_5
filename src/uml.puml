@@ -62,8 +62,9 @@ class SKKM{
 
     +AddObserver(ISKKMObserver observer): void
     +RemoveObserver(ISKKMObserver observer): void
-    +Notify(ISKKMObserver observer): void
-    +NotifyAll(): void
+    +Notify(ISKKMObserver observer, EventAlarm event): void
+    +NotifyAll(EventAlarm event): void
+    +UpdateAll(): void
 }
 
 class Iterator<Abstract>{
@@ -88,7 +89,7 @@ class BaseIterator extends Iterator
 
 class Base extends Aggregator
 {
-
+    +SubscribeAllVehiclesTo(SKKM center): void
 }
 
 class VehicleIterator extends Iterator
@@ -97,28 +98,49 @@ class VehicleIterator extends Iterator
 }
 
 class Vehicle implements ISKKMObserver{
+    -state: GenericVehicleState
+    +disposed: DisposedVehicleState
+    +available: AvailableVehicleState
+    +inAction: InActionVehicleState
+    +returning: ReturningVehicleState
+    -name: String
+
+    +IsAvailable(): boolean
+    +GetName(): String
+
 
 }
 
-
-
 interface IDispositionStrategy{
-    +<i>ChoseVehicles(SKKM ctx, Vector2 location, int amount): void
+    +<i>SendVehicles(SKKM ctx, EventAlarm event): void
 }
 
 class NearestBaseStrategy implements IDispositionStrategy {
+    -TrySendingAndGetRest(SKKM ctx, Base nearestBase, EventAlarm event, int amount): int
 }
 
 class VehicleState<Abstract>{
-    +<i>IsAvailable()</i>
-    +<i>EnterState()</i>
-    +<i>Update()</i>
+    +<i>IsVehicleAvailable(): boolean</i>
+    +<i>EnterState(): void</i>
+    +<i>Update(Vehicle ctx, long time): void</i>
 }
 
-class Available extends VehicleState{
+class AvailableVehicleState extends VehicleState{
 }
 
-class Disposed extends VehicleState{
+class DisposedVehicleState extends VehicleState{
+    -timeSinceDeploy: long
+    -travelTime: long
+}
+
+class InActionVehicleState extends VehicleState{
+    -timeSinceBeginning: long
+    -actionTime: long
+}
+
+class ReturningVehicleState extends VehicleState{
+    -timeSincePoint: long
+    -travelTime: long
 }
 
 
@@ -126,17 +148,17 @@ class Disposed extends VehicleState{
 'OtherEvent ..> "can transition" FalseAlarm
 EventGenerator "creates" --> EventAlarm
 Application "sends events"--> SKKM
-Application "requests new event"--> EventGenerator
+Application "requests new event"--> IEventGenerator
 SKKM o-- "0..5n" ISKKMObserver
 SKKM o--> IDispositionStrategy
-Application *--"1" BaseContainer
+Application *-->"1" BaseContainer
 BaseContainer *--"1..n" Base
 Base *-- "5" Vehicle
 VehicleState -- Vehicle
 'Main ... NearestBaseStrategy
 
-Base --> VehicleIterator
-BaseContainer --> BaseIterator
+Base "creates"--> VehicleIterator
+BaseContainer "creates"--> BaseIterator
 
 
 'note left of EventManager: Update is called every frame\nand is defined by Unity Engine\nin MonoBehaviour

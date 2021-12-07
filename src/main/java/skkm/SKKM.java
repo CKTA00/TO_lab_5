@@ -62,7 +62,7 @@ public class SKKM {
 
     void Dispose(EventAlarm event)
     {
-        strategy.ChoseVehicles(this, event);
+        strategy.SendVehicles(this, event);
     }
 
     public void UpdateAll(long updateTime) {

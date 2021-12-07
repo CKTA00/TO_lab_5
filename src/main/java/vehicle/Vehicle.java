@@ -36,7 +36,7 @@ public class Vehicle implements ISKKMObserver {
         state.Update(this, time);
     }
 
-    public boolean isAvailable()
+    public boolean IsAvailable()
     {
         return state.IsVehicleAvailable();
     }
