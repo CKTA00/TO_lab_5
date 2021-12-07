@@ -1,13 +1,20 @@
 @startuml
 
-'TODO: Update uml (new VehicleStates, ui, many functions)
-
 class Application <Final>{
     -updateTime: long = 50
     +Run()
     +GetCurrentUI: IGeneralUI
     -CreateDefaultBases()
     -Update()
+}
+
+interface IGeneralUI{
+    +Print(String message)
+    +PrintLn(String message)
+}
+
+class ConsoleUI implements IGeneralUI{
+
 }
 
 interface IEventGenerator{
@@ -146,12 +153,18 @@ class ReturningVehicleState extends VehicleState{
 
 'Fire ..> "can transition" FalseAlarm
 'OtherEvent ..> "can transition" FalseAlarm
-EventGenerator "creates" --> EventAlarm
-Application "sends events"--> SKKM
-Application "requests new event"--> IEventGenerator
+
+Application *--> "1" IGeneralUI
+Application "sends events" *--> "1" SKKM
+Application "requests new event" *-->"1" IEventGenerator
+Application *-->"1" BaseContainer
+
+
 SKKM o-- "0..5n" ISKKMObserver
 SKKM o--> IDispositionStrategy
-Application *-->"1" BaseContainer
+
+EventGenerator "creates" --> EventAlarm
+
 BaseContainer *--"1..n" Base
 Base *-- "5" Vehicle
 VehicleState -- Vehicle
