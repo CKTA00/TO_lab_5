@@ -1,8 +1,7 @@
-package vehicle_state;
+package vehicle.vehicle_state;
 
-import skkm.Application;
-import skkm.Vehicle;
-import ui.ConsoleUI;
+import application.Application;
+import vehicle.Vehicle;
 import ui.IGeneralUI;
 
 import java.util.Random;

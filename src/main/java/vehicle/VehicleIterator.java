@@ -1,6 +1,6 @@
-package skkm;
+package vehicle;
 
-import util.Iterator;
+import my_util.Iterator;
 
 public class VehicleIterator extends Iterator {
 

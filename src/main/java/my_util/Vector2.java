@@ -1,4 +1,4 @@
-package util;
+package my_util;
 
 public class Vector2 {
     public double x;

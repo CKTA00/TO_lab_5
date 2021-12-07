@@ -1,6 +1,6 @@
 package event;
 
-import util.Vector2;
+import my_util.Vector2;
 
 public class LocalThreatAlarm extends EventAlarm{
     public LocalThreatAlarm(Vector2 location, boolean isFalseAlarm) {

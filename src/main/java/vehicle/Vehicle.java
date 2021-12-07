@@ -1,9 +1,10 @@
-package skkm;
+package vehicle;
 
 import event.EventAlarm;
-import vehicle_state.*;
+import skkm.ISKKMObserver;
+import vehicle.vehicle_state.*;
 
-public class Vehicle implements ISKKMObserver{
+public class Vehicle implements ISKKMObserver {
 
     GenericVehicleState state;
     public DisposedVehicleState disposed;

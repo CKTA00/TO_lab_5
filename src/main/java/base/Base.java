@@ -1,8 +1,11 @@
-package skkm;
+package base;
 
-import util.Aggregator;
-import util.Iterator;
-import util.Vector2;
+import skkm.SKKM;
+import vehicle.Vehicle;
+import vehicle.VehicleIterator;
+import my_util.Aggregator;
+import my_util.Iterator;
+import my_util.Vector2;
 
 public class Base extends Aggregator {
     public String name;

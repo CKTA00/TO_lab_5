@@ -1,6 +1,6 @@
-package vehicle_state;
+package vehicle.vehicle_state;
 
-import skkm.Vehicle;
+import vehicle.Vehicle;
 
 public abstract class GenericVehicleState {
     public abstract void EnterState();

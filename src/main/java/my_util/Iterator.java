@@ -1,4 +1,4 @@
-package util;
+package my_util;
 
 public abstract class Iterator {
     public abstract boolean hasNext();

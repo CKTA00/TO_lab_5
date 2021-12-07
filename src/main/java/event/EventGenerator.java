@@ -1,6 +1,6 @@
 package event;
 
-import util.Vector2;
+import my_util.Vector2;
 
 import java.util.Random;
 

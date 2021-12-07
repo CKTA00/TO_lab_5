@@ -1,6 +1,6 @@
-package vehicle_state;
+package vehicle.vehicle_state;
 
-import skkm.Vehicle;
+import vehicle.Vehicle;
 
 public class AvailableVehicleState extends GenericVehicleState{
 

@@ -1,8 +1,6 @@
 package event;
 
-import util.Vector2;
-
-import java.util.Random;
+import my_util.Vector2;
 
 public class EventAlarm {
 
